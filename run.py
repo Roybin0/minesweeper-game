@@ -45,11 +45,12 @@ def validate_level(data):
     return True
 
 
-def board_size(level):
+def draw_board(level):
     """
     Draws the minesweeper game board and places mines in 
     random locations. The number of mines depends on the difficulty
-    level chosen.
+    level chosen. As mines are placed, the value of the immediate surrounding
+    spaces is increased by 1. 
     """
 
     print("Drawing game board...\n")
@@ -59,19 +60,24 @@ def board_size(level):
         mines = 5
     elif level == 'm':
         size = 10
-        mines = 10
+        mines = 20
     elif level == 'h':
         size = 15
-        mines = 15
+        mines = 30
 
-    print(size, mines)
+    print(f"The board will be {size} x {size}")
+    print(f"You must avoid {mines} mines. Good luck!")
 
     board = [[0 for row in range(size)] for column in range(size)]
 
+    for mine in range(mines): 
+        x = random.randint(0, size-1)
+        y = random.randint(0, size-1)
+        board[x][y] = 'X'
+
     for row in board:
         print(" ".join(str(cell) for cell in row))
-        print("")
 
 
 difficulty = get_difficulty_level()
-board_size(difficulty)
+draw_board(difficulty)
