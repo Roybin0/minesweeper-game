@@ -14,13 +14,13 @@ def get_difficulty_level():
         if validate_level(level):
             level = level.lower()
             if level == 'e':
-                print("You chose easy! Let's go!")
+                print("You chose easy. Let's go!")
                 return level
             if level == 'm':
-                print("You chose medium! Let's go!")
+                print("You chose medium. Let's go!")
                 return level
             if level == 'h':
-                print("You chose hard! Let's go!")
+                print("You chose hard. Let's go!")
                 return level
             break
      
@@ -45,7 +45,7 @@ def validate_level(data):
     return True
 
 
-def draw_board(level):
+def create_board(level):
     """
     Draws the minesweeper game board and places mines in 
     random locations. The number of mines depends on the difficulty
@@ -57,7 +57,7 @@ def draw_board(level):
 
     if level == 'e':
         size = 5
-        mines = 5
+        mines = 8
     elif level == 'm':
         size = 10
         mines = 20
@@ -65,19 +65,138 @@ def draw_board(level):
         size = 15
         mines = 30
 
-    print(f"The board will be {size} x {size}")
-    print(f"You must avoid {mines} mines. Good luck!")
+    print(f"The board will be {size} x {size}.")
+    print(f"Rows and columns are numbered 1 - {size}.")
+    print("Enter a row number first, then a column number.")
+    print(f"You must avoid {mines} mines. Good luck!\n")
 
-    board = [[0 for row in range(size)] for column in range(size)]
+    board = [[0 for _ in range(size)] for _ in range(size)]
+    hidden_mines = 0
+    while hidden_mines < mines:
+        row = random.randint(0, size-1)
+        col = random.randint(0, size-1)
 
-    for mine in range(mines): 
-        x = random.randint(0, size-1)
-        y = random.randint(0, size-1)
-        board[x][y] = 'X'
+        if board[row][col] == 'X':
+            continue
+
+        board[row][col] = 'X'
+        hidden_mines += 1
+
+    return board
+
+
+def find_surrounding_mines(board, size):
+    """
+    Checks the surrounding spaces for the number of mines, if any. 
+    """
+
+    for row in range(size):
+        for col in range(size): 
+            continue
+        if row == 0 and col == 0:
+            if board[row+1][col] != 'X':
+                board[row+1][col] += 1
+            if board[row][col+1] != 'X':
+                board[row][col+1] += 1
+            if board[row+1][col+1] != 'X':
+                board[row+1][col+1] += 1
+                
+        elif (row >= 1 and row <= size-2) and col == 0:
+            if board[row-1][col] != 'X':
+                board[row-1][col] += 1
+            if board[row+1][col] != 'X':
+                board[row+1][col] += 1
+            if board[row-1][col+1] != 'X':
+                board[row-1][col+1] += 1
+            if board[row][col+1] != 'X':
+                board[row][col+1] += 1
+            if board[row+1][col+1] != 'X':
+                board[row+1][col+1] += 1
+                
+        elif row == size-1 and col == 0:
+            if board[row-1][col] != 'X':
+                board[row-1][col] += 1
+            if board[row-1][col+1] != 'X':
+                board[row-1][col+1] += 1
+            if board[row][col+1] != 'X':
+                board[row][col+1] += 1
+                
+        elif row == size - 1 and (col >= 1 and col <= size - 2):
+            if board[row-1][col-1] != 'X':
+                board[row-1][col-1] += 1
+            if board[row][col-1] != 'X':
+                board[row][col-1] += 1
+            if board[row-1][col] != 'X':
+                board[row-1][col] += 1
+            if board[row-1][col+1] != 'X':
+                board[row-1][col+1] += 1
+            if board[row][col+1] != 'X':
+                board[row][col+1] += 1
+                
+        elif row == size - 1 and col == size - 1:
+            if board[row-1][col-1] != 'X':
+                board[row-1][col-1] += 1
+            if board[row][col-1] != 'X':
+                board[row][col-1] += 1
+            if board[row-1][col] != 'X':
+                board[row-1][col] += 1
+                    
+        elif (row >= 1 and row <= size - 2) and col == size - 1:
+            if board[row-1][col-1] != 'X':
+                board[row-1][col-1] += 1
+            if board[row][col-1] != 'X':
+                board[row][col-1] += 1
+            if board[row+1][col-1] != 'X':
+                board[row+1][col-1] += 1
+            if board[row-1][col] != 'X':
+                board[row-1][col] += 1
+            if board[row+1][col] != 'X':
+                board[row+1][col] += 1 
+
+        elif row == 0 and col == size - 1:
+            if board[row][col-1] != 'X':
+                board[row][col-1] += 1
+            if board[row+1][col-1] != 'X':
+                board[row+1][col-1] += 1
+            if board[row+1][col] != 'X':
+                board[row+1][col] += 1
+            
+        elif row == 0 and (col >= 1 and col <= size - 2):
+            if board[row][col-1] != 'X':
+                board[row][col-1] += 1
+            if board[row+1][col-1] != 'X':
+                board[row+1][col-1] += 1
+            if board[row+1][col] != 'X':
+                board[row+1][col] += 1
+            if board[row][col+1] != 'X':
+                board[row][col+1] += 1
+            if board[row+1][col+1] != 'X':
+                board[row+1][col+1] += 1
+            
+        elif (row >= 1 and row <= size - 2) and (col >= 1 and col <= size - 2):
+            if board[row-1][col-1] != 'X':
+                board[row-1][col-1] += 1
+            if board[row][col-1] != 'X':
+                board[row][col-1] += 1
+            if board[row+1][col-1] != 'X':
+                board[row+1][col-1] += 1
+            if board[row-1][col] != 'X':
+                board[row-1][col] += 1
+            if board[row+1][col] != 'X':
+                board[row+1][col] += 1
+            if board[row-1][col+1] != 'X':
+                board[row-1][col+1] += 1
+            if board[row][col+1] != 'X':
+                board[row][col+1] += 1
+            if board[row+1][col+1] != 'X':
+                board[row+1][col+1] += 1
 
     for row in board:
         print(" ".join(str(cell) for cell in row))
+    
+    return board
 
 
 difficulty = get_difficulty_level()
-draw_board(difficulty)
+new_game = create_board(difficulty)
+find_surrounding_mines(new_game, 5)
