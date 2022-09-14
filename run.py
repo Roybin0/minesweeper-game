@@ -228,23 +228,55 @@ def print_game_board(board):
         print(" ".join(str(cell) for cell in row))
 
 
-def play_game(player_board, board):
+def play_game(players_board, board):
     """
     Asks the player to choose a row and column number and checks if
     a mine is at that location. Returns an updated game board.
     """
-
+    
     size = len(board[0])
-    player_row = input(f"Choose a row number (1 - {size}): \n")
-    # validate_data(player_row)
-    player_col = input(f"Choose a column number (1 - {size}): \n")
-    # validate_data(player_col)
+    while True:
+        player_row = input(f"Choose a row number (1 - {size}): \n")
+        if validate_data(player_row, size):
+            break
+    while True:
+        player_col = input(f"Choose a column number (1 - {size}): \n")
+        if validate_data(player_col, size):
+            break
 
-    if board[int(player_row)-1][int(player_col)-1] == 'X':
+    player_row = int(player_row) - 1
+    player_col = int(player_col) - 1
+
+    if board[player_row][player_col] == 'X':
         print("Game over!")
+        return False  # Create function for end_game?
     else:
-        print(board[int(player_row)-1][int(player_col)-1])
+        print(board[player_row][player_col])
+        players_board[player_row][player_col] = board[player_row][player_col]
+        print_game_board(player_board)
 
+
+def validate_data(data, size):
+    """
+    Inside the try, converts data input to integer.
+    Raises ValueError if data is outside range. 
+    """
+
+    try:
+        data_int = int(data)
+        if data_int > size:
+            raise ValueError(
+                f"Needs a number between 1 and {size}. You entered {data}. Try again!"
+                )
+        if data_int < 1:
+            raise ValueError(
+                f"Needs a number between 1 and {size}. You entered {data}. Try again!"
+            )
+    except ValueError as e:
+        print(f"Invalid data: {e}")
+        return False
+
+    return True
 
 
 difficulty = get_difficulty_level()
