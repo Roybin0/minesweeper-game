@@ -221,12 +221,30 @@ def create_starting_board(level):
 
 def print_game_board(board):
     """
-    Draws the board for the player to see. It's repeatedly called to
-    update the board when the player chooses locations to dig. 
+    Draws the game board for the player to see. It's repeatedly called to
+    update the game board when the player chooses locations to dig. 
     """
-
     for row in board:
         print(" ".join(str(cell) for cell in row))
+
+
+def play_game(player_board, board):
+    """
+    Asks the player to choose a row and column number and checks if
+    a mine is at that location. Returns an updated game board.
+    """
+
+    size = len(board[0])
+    player_row = input(f"Choose a row number (1 - {size}): \n")
+    # validate_data(player_row)
+    player_col = input(f"Choose a column number (1 - {size}): \n")
+    # validate_data(player_col)
+
+    if board[int(player_row)-1][int(player_col)-1] == 'X':
+        print("Game over!")
+    else:
+        print(board[int(player_row)-1][int(player_col)-1])
+
 
 
 difficulty = get_difficulty_level()
@@ -235,3 +253,4 @@ new_game = create_board(difficulty)
 find_surrounding_mines(new_game)
 player_board = create_starting_board(difficulty)
 print_game_board(player_board)
+play_game(player_board, new_game)
