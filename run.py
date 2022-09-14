@@ -228,32 +228,39 @@ def print_game_board(board):
         print(" ".join(str(cell) for cell in row))
 
 
-def play_game(players_board, board):
+def play_game(players_board, game_board):
     """
     Asks the player to choose a row and column number and checks if
     a mine is at that location. Returns an updated game board.
     """
-    
-    size = len(board[0])
     while True:
-        player_row = input(f"Choose a row number (1 - {size}): \n")
-        if validate_data(player_row, size):
-            break
-    while True:
-        player_col = input(f"Choose a column number (1 - {size}): \n")
-        if validate_data(player_col, size):
-            break
+        size = len(game_board[0])
 
-    player_row = int(player_row) - 1
-    player_col = int(player_col) - 1
+        play_row = input(f"Choose a row number (1 - {size}): \n")
 
-    if board[player_row][player_col] == 'X':
-        print("Game over!")
-        return False  # Create function for end_game?
-    else:
-        print(board[player_row][player_col])
-        players_board[player_row][player_col] = board[player_row][player_col]
-        print_game_board(player_board)
+        while True:
+            if validate_data(play_row, size):
+                break
+
+        play_col = input(f"Choose a column number (1 - {size}): \n")
+        
+        while True:
+            if validate_data(play_col, size):
+                break
+
+        play_row = int(play_row) - 1
+        play_col = int(play_col) - 1
+
+        if game_board[play_row][play_col] == 'X':
+            print("Game over!")
+            print_game_board(game_board)
+            return False  # Create function for end_game? Continue? 
+
+        players_board[play_row][play_col] = game_board[play_row][play_col]
+        print_game_board(players_board)
+        return True
+
+    return True
 
 
 def validate_data(data, size):
@@ -266,11 +273,11 @@ def validate_data(data, size):
         data_int = int(data)
         if data_int > size:
             raise ValueError(
-                f"Needs a number between 1 and {size}. You entered {data}. Try again!"
+                f"Must be between 1 and {size}. You entered {data}. Try again!"
                 )
         if data_int < 1:
             raise ValueError(
-                f"Needs a number between 1 and {size}. You entered {data}. Try again!"
+                f"Must be between 1 and {size}. You entered {data}. Try again!"
             )
     except ValueError as e:
         print(f"Invalid data: {e}")
