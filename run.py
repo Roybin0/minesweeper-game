@@ -1,4 +1,4 @@
-import random 
+import random
 
 
 def get_difficulty_level():
@@ -10,20 +10,20 @@ def get_difficulty_level():
         print("Type 'E' for easy, 'M' for medium or 'H' for hard")
 
         level = input("Enter difficulty level here: \n")
-    
+
         if validate_level(level):
             level = level.lower()
             if level == 'e':
-                print("You chose easy. Let's go!")
+                print("You chose easy. Let's go!\n")
                 return level
             if level == 'm':
-                print("You chose medium. Let's go!")
+                print("You chose medium. Let's go!\n")
                 return level
             if level == 'h':
-                print("You chose hard. Let's go!")
+                print("You chose hard. Let's go!\n")
                 return level
             break
-     
+
 
 def validate_level(data):
     """
@@ -41,7 +41,7 @@ def validate_level(data):
     except ValueError as e:
         print(f"Invalid data: {e}")
         return False
-    
+
     return True
 
 
@@ -49,8 +49,7 @@ def create_board(level):
     """
     Draws the minesweeper game board and places mines in 
     random locations. The number of mines depends on the difficulty
-    level chosen. As mines are placed, the value of the immediate surrounding
-    spaces is increased by 1. 
+    level chosen.
     """
 
     print("Drawing game board...\n")
@@ -85,118 +84,154 @@ def create_board(level):
     return board
 
 
-def find_surrounding_mines(board, size):
+def find_surrounding_mines(board):
     """
-    Checks the surrounding spaces for the number of mines, if any. 
+    Checks each space to see if it contains a mine. If so, increments value
+    of immedately surrounding spaces by 1. 
     """
+
+    size = len(board[0])
 
     for row in range(size):
-        for col in range(size): 
-            continue
-        if row == 0 and col == 0:
-            if board[row+1][col] != 'X':
-                board[row+1][col] += 1
-            if board[row][col+1] != 'X':
-                board[row][col+1] += 1
-            if board[row+1][col+1] != 'X':
-                board[row+1][col+1] += 1
-                
-        elif (row >= 1 and row <= size-2) and col == 0:
-            if board[row-1][col] != 'X':
-                board[row-1][col] += 1
-            if board[row+1][col] != 'X':
-                board[row+1][col] += 1
-            if board[row-1][col+1] != 'X':
-                board[row-1][col+1] += 1
-            if board[row][col+1] != 'X':
-                board[row][col+1] += 1
-            if board[row+1][col+1] != 'X':
-                board[row+1][col+1] += 1
-                
-        elif row == size-1 and col == 0:
-            if board[row-1][col] != 'X':
-                board[row-1][col] += 1
-            if board[row-1][col+1] != 'X':
-                board[row-1][col+1] += 1
-            if board[row][col+1] != 'X':
-                board[row][col+1] += 1
-                
-        elif row == size - 1 and (col >= 1 and col <= size - 2):
-            if board[row-1][col-1] != 'X':
-                board[row-1][col-1] += 1
-            if board[row][col-1] != 'X':
-                board[row][col-1] += 1
-            if board[row-1][col] != 'X':
-                board[row-1][col] += 1
-            if board[row-1][col+1] != 'X':
-                board[row-1][col+1] += 1
-            if board[row][col+1] != 'X':
-                board[row][col+1] += 1
-                
-        elif row == size - 1 and col == size - 1:
-            if board[row-1][col-1] != 'X':
-                board[row-1][col-1] += 1
-            if board[row][col-1] != 'X':
-                board[row][col-1] += 1
-            if board[row-1][col] != 'X':
-                board[row-1][col] += 1
-                    
-        elif (row >= 1 and row <= size - 2) and col == size - 1:
-            if board[row-1][col-1] != 'X':
-                board[row-1][col-1] += 1
-            if board[row][col-1] != 'X':
-                board[row][col-1] += 1
-            if board[row+1][col-1] != 'X':
-                board[row+1][col-1] += 1
-            if board[row-1][col] != 'X':
-                board[row-1][col] += 1
-            if board[row+1][col] != 'X':
-                board[row+1][col] += 1 
+        for col in range(size):
+            if board[row][col] == 'X':
+                if row == 0 and col == 0:
+                    if board[row+1][col] != 'X':
+                        board[row+1][col] += 1
+                    if board[row][col+1] != 'X':
+                        board[row][col+1] += 1
+                    if board[row+1][col+1] != 'X':
+                        board[row+1][col+1] += 1
 
-        elif row == 0 and col == size - 1:
-            if board[row][col-1] != 'X':
-                board[row][col-1] += 1
-            if board[row+1][col-1] != 'X':
-                board[row+1][col-1] += 1
-            if board[row+1][col] != 'X':
-                board[row+1][col] += 1
-            
-        elif row == 0 and (col >= 1 and col <= size - 2):
-            if board[row][col-1] != 'X':
-                board[row][col-1] += 1
-            if board[row+1][col-1] != 'X':
-                board[row+1][col-1] += 1
-            if board[row+1][col] != 'X':
-                board[row+1][col] += 1
-            if board[row][col+1] != 'X':
-                board[row][col+1] += 1
-            if board[row+1][col+1] != 'X':
-                board[row+1][col+1] += 1
-            
-        elif (row >= 1 and row <= size - 2) and (col >= 1 and col <= size - 2):
-            if board[row-1][col-1] != 'X':
-                board[row-1][col-1] += 1
-            if board[row][col-1] != 'X':
-                board[row][col-1] += 1
-            if board[row+1][col-1] != 'X':
-                board[row+1][col-1] += 1
-            if board[row-1][col] != 'X':
-                board[row-1][col] += 1
-            if board[row+1][col] != 'X':
-                board[row+1][col] += 1
-            if board[row-1][col+1] != 'X':
-                board[row-1][col+1] += 1
-            if board[row][col+1] != 'X':
-                board[row][col+1] += 1
-            if board[row+1][col+1] != 'X':
-                board[row+1][col+1] += 1
+                elif (row >= 1 and row <= size-2) and col == 0:
+                    if board[row-1][col] != 'X':
+                        board[row-1][col] += 1
+                    if board[row+1][col] != 'X':
+                        board[row+1][col] += 1
+                    if board[row-1][col+1] != 'X':
+                        board[row-1][col+1] += 1
+                    if board[row][col+1] != 'X':
+                        board[row][col+1] += 1
+                    if board[row+1][col+1] != 'X':
+                        board[row+1][col+1] += 1
+
+                elif row == size-1 and col == 0:
+                    if board[row-1][col] != 'X':
+                        board[row-1][col] += 1
+                    if board[row-1][col+1] != 'X':
+                        board[row-1][col+1] += 1
+                    if board[row][col+1] != 'X':
+                        board[row][col+1] += 1
+
+                elif row == size - 1 and (col >= 1 and col <= size - 2):
+                    if board[row-1][col-1] != 'X':
+                        board[row-1][col-1] += 1
+                    if board[row][col-1] != 'X':
+                        board[row][col-1] += 1
+                    if board[row-1][col] != 'X':
+                        board[row-1][col] += 1
+                    if board[row-1][col+1] != 'X':
+                        board[row-1][col+1] += 1
+                    if board[row][col+1] != 'X':
+                        board[row][col+1] += 1
+                        
+                elif row == size - 1 and col == size - 1:
+                    if board[row-1][col-1] != 'X':
+                        board[row-1][col-1] += 1
+                    if board[row][col-1] != 'X':
+                        board[row][col-1] += 1
+                    if board[row-1][col] != 'X':
+                        board[row-1][col] += 1
+                            
+                elif (row >= 1 and row <= size - 2) and col == size - 1:
+                    if board[row-1][col-1] != 'X':
+                        board[row-1][col-1] += 1
+                    if board[row][col-1] != 'X':
+                        board[row][col-1] += 1
+                    if board[row+1][col-1] != 'X':
+                        board[row+1][col-1] += 1
+                    if board[row-1][col] != 'X':
+                        board[row-1][col] += 1
+                    if board[row+1][col] != 'X':
+                        board[row+1][col] += 1
+
+                elif row == 0 and col == size - 1:
+                    if board[row][col-1] != 'X':
+                        board[row][col-1] += 1
+                    if board[row+1][col-1] != 'X':
+                        board[row+1][col-1] += 1
+                    if board[row+1][col] != 'X':
+                        board[row+1][col] += 1
+
+                elif row == 0 and (col >= 1 and col <= size - 2):
+                    if board[row][col-1] != 'X':
+                        board[row][col-1] += 1
+                    if board[row+1][col-1] != 'X':
+                        board[row+1][col-1] += 1
+                    if board[row+1][col] != 'X':
+                        board[row+1][col] += 1
+                    if board[row][col+1] != 'X':
+                        board[row][col+1] += 1
+                    if board[row+1][col+1] != 'X':
+                        board[row+1][col+1] += 1
+
+                elif (0 < row < size - 1) and (0 < col < size - 1):
+                    if board[row-1][col-1] != 'X':
+                        board[row-1][col-1] += 1
+                    if board[row][col-1] != 'X':
+                        board[row][col-1] += 1
+                    if board[row+1][col-1] != 'X':
+                        board[row+1][col-1] += 1
+                    if board[row-1][col] != 'X':
+                        board[row-1][col] += 1
+                    if board[row+1][col] != 'X':
+                        board[row+1][col] += 1
+                    if board[row-1][col+1] != 'X':
+                        board[row-1][col+1] += 1
+                    if board[row][col+1] != 'X':
+                        board[row][col+1] += 1
+                    if board[row+1][col+1] != 'X':
+                        board[row+1][col+1] += 1
 
     for row in board:
         print(" ".join(str(cell) for cell in row))
-    
+
     return board
+
+
+def create_starting_board(level):
+    """
+    Draws the players starting minesweeper game board
+    """
+    if level == 'e':
+        size = 5
+        board = [["-" for _ in range(size)] for _ in range(size)]
+        return board
+
+    if level == 'm':
+        size = 10
+        board = [["-" for _ in range(size)] for _ in range(size)]
+        return board
+
+    if level == 'h':
+        size = 15
+        board = [["-" for _ in range(size)] for _ in range(size)]
+        return board
+
+
+def print_game_board(board):
+    """
+    Draws the board for the player to see. It's repeatedly called to
+    update the board when the player chooses locations to dig. 
+    """
+
+    for row in board:
+        print(" ".join(str(cell) for cell in row))
 
 
 difficulty = get_difficulty_level()
 new_game = create_board(difficulty)
-find_surrounding_mines(new_game, 5)
+
+find_surrounding_mines(new_game)
+player_board = create_starting_board(difficulty)
+print_game_board(player_board)
