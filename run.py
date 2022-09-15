@@ -258,9 +258,8 @@ def play_game(players_board, game_board):
 
         players_board[play_row][play_col] = game_board[play_row][play_col]
         print_game_board(players_board)
+    
         return True
-
-    return True
 
 
 def validate_data(data, size):
@@ -286,6 +285,20 @@ def validate_data(data, size):
     return True
 
 
+def board_clear(players_board):
+    """
+    Iterates through all values of the players board to check for
+    '-'. If there are none remaining the player has won the game. 
+    """
+    size = len(players_board[0])
+
+    for row in range(size):
+        for col in range(size):
+            if players_board[row][col] == '-':
+                return False
+    return True
+
+
 difficulty = get_difficulty_level()
 new_game = create_board(difficulty)
 
@@ -293,3 +306,7 @@ find_surrounding_mines(new_game)
 player_board = create_starting_board(difficulty)
 print_game_board(player_board)
 play_game(player_board, new_game)
+
+
+test = board_clear(player_board)
+print(test)
