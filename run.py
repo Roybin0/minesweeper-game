@@ -437,10 +437,10 @@ def main():
     """
     difficulty = get_difficulty_level()
     new_game = create_board(difficulty)
-    find_surrounding_mines(new_game)
+    game_board = find_surrounding_mines(new_game)
     player_board = create_starting_board(difficulty)
     print_game_board(player_board)
-    play_game(new_game, player_board)
+    play_game(game_board, player_board)
 
 
 main()

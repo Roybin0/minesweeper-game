@@ -44,6 +44,12 @@ Read more about the origins of Minesweeper on Wikipedia [here](https://en.wikipe
 
 ## Features 
 
+### Flow Chart
+
+In order to build the game, a flow chart of required steps was created to highlight different features needed: 
+
+![](https://lh3.googleusercontent.com/pw/AL9nZEWdCagh7eby3L992cMhus3znHzBVjOyLuKvTtSe9Ekn3Jh7dcjMUd_g-cqbJAZ6_hp3VI1Vz9rIaqdiX5rbMkaGGarPAACdUU2CQkoSBc0MAmDdIvHQUMwSjHAOVNOg5pB2mCtNtsdb3FD7l5-EoLDw=w1470-h1164-no?authuser=0)
+
 ### Player Input
 
 This game requires multiple player inputs: 
