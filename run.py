@@ -302,14 +302,14 @@ def play_game(game_board, players_board):
             if game_board[row][col] == 'X':
                 print("Game over!")
                 print_game_board(game_board)
-                return False  # Create function for end_game? Continue?
+                play_again()
             else:
                 players_board[row][col] = game_board[row][col]
                 print_game_board(players_board)
 
         else:
             print("Congratulations! You've found all the mines!")
-            print("Would you like to play again?")  # Create function
+            play_again()
             break
 
 
