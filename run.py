@@ -262,7 +262,7 @@ def play_game(game, board):
                 print_game_board(game)
                 play_again()
             else:
-                while game[row][col] == 0:
+                if game[row][col] == 0:
                     if row == 0 and col == 0:
                         board[row][col] = game[row][col]
                         board[row + 1][col] = game[row + 1][col]
@@ -338,7 +338,6 @@ def play_game(game, board):
                         board[row][col + 1] = game[row][col + 1]
                         board[row + 1][col + 1] = game[row + 1][col + 1]
                         print_game_board(board)
-                    break
                 else:
                     board[row][col] = game[row][col]
                     print_game_board(board)

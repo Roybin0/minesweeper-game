@@ -91,7 +91,11 @@ Huawei P20 Pro, Galaxy A40, Galaxy Tab; game is running succesfully without any 
 
 ## Future Features
 
-In a standard game of Minesweeper, if a player reveals a space that has 0 mines in the surrounding spaces, the board continues to reveal surrounding spaces until it finds a value. I would like to add this functionality to the Minesweeper Game in the future. 
+In a standard game of Minesweeper, if a player reveals a space that has 0 mines in the surrounding spaces, the board continues to reveal surrounding spaces until it finds a value. 
+
+The current game can reveal the immediate surrounding spaces of a single space with a value of 0. If further spaces reveal 0, the spaces surrounding the new 0 are not revealed. This functionality should be added in the future. 
+
+Creating the game board as an object may make this easier. 
 
 ## Validator Testing
 
@@ -116,6 +120,7 @@ Steps to deploy:
 ### Other Code
 
 * Code for validation functions has been adapted from Code Institute's Love Sandwiches project which can be found [here](https://github.com/Code-Institute-Solutions/love-sandwiches-p5-sourcecode).
+* Code for the deployment terminal has ben provided by Code Institute. 
 
 ### Acknowledgements 
 
