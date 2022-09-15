@@ -228,16 +228,16 @@ def print_game_board(board):
     return board
 
 
-def play_game(game_board, players_board):
+def play_game(game, board):
     """
     Takes the players input and and checks if a mine is at that location.
     Returns an updated game board.
     """
 
-    size = len(players_board)
+    size = len(board)
 
     while True:
-        if board_clear(players_board) is False:
+        if board_clear(board) is False:
 
             while True:
                 print(" \n")
@@ -254,16 +254,94 @@ def play_game(game_board, players_board):
             row = int(row) - 1
             col = int(col) - 1
 
-            if players_board[row][col] != '-':
+            if board[row][col] != '-':
                 print("You've checked here already!")
                 continue
-            elif game_board[row][col] == 'X':
+            if game[row][col] == 'X':
                 print("Game over!")
-                print_game_board(game_board)
+                print_game_board(game)
                 play_again()
             else:
-                players_board[row][col] = game_board[row][col]
-                print_game_board(players_board)
+                while game[row][col] == 0:
+                    if row == 0 and col == 0:
+                        board[row][col] = game[row][col]
+                        board[row + 1][col] = game[row + 1][col]
+                        board[row][col + 1] = game[row][col + 1]
+                        board[row + 1][col + 1] = game[row + 1][col + 1]
+                        print_game_board(board)
+
+                    elif (1 <= row <= size-2) and col == 0:
+                        board[row][col] = game[row][col]
+                        board[row - 1][col] = game[row - 1][col]
+                        board[row + 1][col] = game[row + 1][col]
+                        board[row - 1][col + 1] = game[row - 1][col + 1]
+                        board[row][col + 1] = game[row][col + 1]
+                        board[row + 1][col + 1] = game[row + 1][col + 1]
+                        print_game_board(board)
+
+                    elif row == size-1 and col == 0:
+                        board[row][col] = game[row][col]
+                        board[row - 1][col] = game[row - 1][col]
+                        board[row - 1][col + 1] = game[row - 1][col + 1]
+                        board[row][col + 1] = game[row][col + 1]
+                        print_game_board(board)
+
+                    elif row == size - 1 and (1 <= col <= size - 2):
+                        board[row][col] = game[row][col]
+                        board[row - 1][col - 1] = game[row - 1][col - 1]
+                        board[row][col - 1] = game[row][col - 1]
+                        board[row - 1][col] = game[row - 1][col]
+                        board[row - 1][col + 1] = game[row - 1][col + 1]
+                        board[row][col + 1] = game[row][col + 1]
+                        print_game_board(board)
+
+                    elif row == size - 1 and col == size - 1:
+                        board[row][col] = game[row][col]
+                        board[row - 1][col - 1] = game[row - 1][col - 1]
+                        board[row][col - 1] = game[row][col - 1]
+                        board[row - 1][col] = game[row - 1][col]
+                        print_game_board(board)
+
+                    elif (1 <= row <= size - 2) and col == size - 1:
+                        board[row][col] = game[row][col]
+                        board[row - 1][col - 1] = game[row - 1][col - 1]
+                        board[row][col - 1] = game[row][col - 1]
+                        board[row + 1][col - 1] = game[row + 1][col - 1]
+                        board[row - 1][col] = game[row - 1][col]
+                        board[row + 1][col] = game[row + 1][col]
+                        print_game_board(board)
+
+                    elif row == 0 and col == size - 1:
+                        board[row][col] = game[row][col]
+                        board[row][col - 1] = game[row][col - 1]
+                        board[row + 1][col - 1] = game[row + 1][col - 1]
+                        board[row + 1][col] = game[row + 1][col]
+                        print_game_board(board)
+
+                    elif row == 0 and (1 <= col <= size - 2):
+                        board[row][col] = game[row][col]
+                        board[row][col - 1] = game[row][col - 1]
+                        board[row + 1][col - 1] = game[row + 1][col - 1]
+                        board[row + 1][col] = game[row + 1][col]
+                        board[row][col + 1] = game[row][col + 1]
+                        board[row + 1][col + 1] = game[row + 1][col + 1]
+                        print_game_board(board)
+
+                    else:
+                        board[row][col] = game[row][col]
+                        board[row - 1][col - 1] = game[row - 1][col - 1]
+                        board[row][col - 1] = game[row][col - 1]
+                        board[row + 1][col - 1] = game[row + 1][col - 1]
+                        board[row - 1][col] = game[row - 1][col]
+                        board[row + 1][col] = game[row + 1][col]
+                        board[row - 1][col + 1] = game[row - 1][col + 1]
+                        board[row][col + 1] = game[row][col + 1]
+                        board[row + 1][col + 1] = game[row + 1][col + 1]
+                        print_game_board(board)
+                    break
+                else:
+                    board[row][col] = game[row][col]
+                    print_game_board(board)
 
         else:
             print("Congratulations! You've found all the mines!")
