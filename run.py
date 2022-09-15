@@ -254,7 +254,10 @@ def play_game(game_board, players_board):
             row = int(row) - 1
             col = int(col) - 1
 
-            if game_board[row][col] == 'X':
+            if players_board[row][col] != '-':
+                print("You've checked here already!")
+                continue
+            elif game_board[row][col] == 'X':
                 print("Game over!")
                 print_game_board(game_board)
                 play_again()
