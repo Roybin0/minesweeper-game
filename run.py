@@ -228,25 +228,44 @@ def print_game_board(board):
     return board
 
 
-def get_player_row_col(game_board):
+def play_game(game_board, players_board):
     """
-    Request the players choice of location to check for a mine.
-    Players will need to enter a row and column number. Returns
-    row, column and game board.
+    Takes the players input and and checks if a mine is at that location.
+    Returns an updated game board.
     """
-    size = len(game_board[0])
+
+    size = len(players_board)
 
     while True:
-        play_row = input(f"Choose a row (1 - {size}): \n")
-        if validate_data(play_row, size):
-            break
+        if board_clear(players_board) is False:
 
-    while True:
-        play_col = input(f"Choose a column (1 - {size}): \n")
-        if validate_data(play_col, size):
-            break
+            while True:
+                print(" \n")
+                row = input(f"Choose a row (1 - {size}): \n")
+                if validate_data(row, size):
+                    break
 
-    return play_row, play_col, game_board
+            while True:
+                col = input(f"Choose a column (1 - {size}): \n")
+                print(" \n")
+                if validate_data(col, size):
+                    break
+
+            row = int(row) - 1
+            col = int(col) - 1
+
+            if game_board[row][col] == 'X':
+                print("Game over!")
+                print_game_board(game_board)
+                play_again()
+            else:
+                players_board[row][col] = game_board[row][col]
+                print_game_board(players_board)
+
+        else:
+            print("Congratulations! You've found all the mines!")
+            play_again()
+            break
 
 
 def validate_data(data, size):
@@ -270,44 +289,6 @@ def validate_data(data, size):
         return False
 
     return True
-
-
-def play_game(game_board, players_board):
-    """
-    Takes the players input and and checks if a mine is at that location.
-    Returns an updated game board.
-    """
-
-    size = len(players_board)
-
-    while True:
-        if board_clear(players_board) is False:
-
-            while True:
-                row = input(f"Choose a row (1 - {size}): \n")
-                if validate_data(row, size):
-                    break
-
-            while True:
-                col = input(f"Choose a column (1 - {size}): \n")
-                if validate_data(col, size):
-                    break
-
-            row = int(row) - 1
-            col = int(col) - 1
-
-            if game_board[row][col] == 'X':
-                print("Game over!")
-                print_game_board(game_board)
-                play_again()
-            else:
-                players_board[row][col] = game_board[row][col]
-                print_game_board(players_board)
-
-        else:
-            print("Congratulations! You've found all the mines!")
-            play_again()
-            break
 
 
 def board_clear(players_board):
