@@ -48,7 +48,7 @@ def validate_level(data):
 
 def create_board(level):
     """
-    Draws the minesweeper game board and places mines in 
+    Draws the minesweeper game board and places mines in
     random locations. The number of mines depends on the difficulty
     level chosen.
     """
@@ -88,7 +88,7 @@ def create_board(level):
 def find_surrounding_mines(board):
     """
     Checks each space to see if it contains a mine. If so, increments value
-    of immedately surrounding spaces by 1. 
+    of immedately surrounding spaces by 1.
     """
 
     size = len(board[0])
@@ -104,7 +104,7 @@ def find_surrounding_mines(board):
                     if board[row+1][col+1] != 'X':
                         board[row+1][col+1] += 1
 
-                elif (row >= 1 and row <= size-2) and col == 0:
+                elif (1 <= row <= size-2) and col == 0:
                     if board[row-1][col] != 'X':
                         board[row-1][col] += 1
                     if board[row+1][col] != 'X':
@@ -124,7 +124,7 @@ def find_surrounding_mines(board):
                     if board[row][col+1] != 'X':
                         board[row][col+1] += 1
 
-                elif row == size - 1 and (col >= 1 and col <= size - 2):
+                elif row == size - 1 and (1 <= col <= size - 2):
                     if board[row-1][col-1] != 'X':
                         board[row-1][col-1] += 1
                     if board[row][col-1] != 'X':
@@ -135,7 +135,7 @@ def find_surrounding_mines(board):
                         board[row-1][col+1] += 1
                     if board[row][col+1] != 'X':
                         board[row][col+1] += 1
-                        
+
                 elif row == size - 1 and col == size - 1:
                     if board[row-1][col-1] != 'X':
                         board[row-1][col-1] += 1
@@ -143,8 +143,8 @@ def find_surrounding_mines(board):
                         board[row][col-1] += 1
                     if board[row-1][col] != 'X':
                         board[row-1][col] += 1
-                            
-                elif (row >= 1 and row <= size - 2) and col == size - 1:
+
+                elif (1 <= row <= size - 2) and col == size - 1:
                     if board[row-1][col-1] != 'X':
                         board[row-1][col-1] += 1
                     if board[row][col-1] != 'X':
@@ -164,7 +164,7 @@ def find_surrounding_mines(board):
                     if board[row+1][col] != 'X':
                         board[row+1][col] += 1
 
-                elif row == 0 and (col >= 1 and col <= size - 2):
+                elif row == 0 and (1 <= col <= size - 2):
                     if board[row][col-1] != 'X':
                         board[row][col-1] += 1
                     if board[row+1][col-1] != 'X':
@@ -194,9 +194,6 @@ def find_surrounding_mines(board):
                     if board[row+1][col+1] != 'X':
                         board[row+1][col+1] += 1
 
-    for row in board:
-        print(" ".join(str(cell) for cell in row))
-
     return board
 
 
@@ -223,7 +220,7 @@ def create_starting_board(level):
 def print_game_board(board):
     """
     Draws the game board for the player to see. It's repeatedly called to
-    update the game board when the player chooses locations to dig. 
+    update the game board when the player chooses locations to dig.
     """
     for row in board:
         print(" ".join(str(cell) for cell in row))
@@ -233,7 +230,7 @@ def print_game_board(board):
 
 def get_player_row_col(game_board):
     """
-    Request the players choice of location to check for a mine. 
+    Request the players choice of location to check for a mine.
     Players will need to enter a row and column number. Returns
     row, column and game board.
     """
@@ -277,7 +274,7 @@ def validate_data(data, size):
 
 def play_game(game_board, players_board):
     """
-    Takes the players input and and checks if a mine is at that location. 
+    Takes the players input and and checks if a mine is at that location.
     Returns an updated game board.
     """
 
@@ -297,7 +294,7 @@ def play_game(game_board, players_board):
                     break
 
             row = int(row) - 1
-            col = int(col) - 1 
+            col = int(col) - 1
 
             if game_board[row][col] == 'X':
                 print("Game over!")
