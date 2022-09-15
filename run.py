@@ -1,4 +1,5 @@
 import random
+import sys
 
 
 def get_difficulty_level():
@@ -227,45 +228,34 @@ def print_game_board(board):
     for row in board:
         print(" ".join(str(cell) for cell in row))
 
+    return board
 
-def play_game(players_board, game_board):
+
+def get_player_row_col(game_board):
     """
-    Asks the player to choose a row and column number and checks if
-    a mine is at that location. Returns an updated game board.
+    Request the players choice of location to check for a mine. 
+    Players will need to enter a row and column number. Returns
+    row, column and game board.
     """
+    size = len(game_board[0])
+
     while True:
-        size = len(game_board[0])
+        play_row = input(f"Choose a row (1 - {size}): \n")
+        if validate_data(play_row, size):
+            break
 
-        play_row = input(f"Choose a row number (1 - {size}): \n")
+    while True:
+        play_col = input(f"Choose a column (1 - {size}): \n")
+        if validate_data(play_col, size):
+            break
 
-        while True:
-            if validate_data(play_row, size):
-                break
-
-        play_col = input(f"Choose a column number (1 - {size}): \n")
-        
-        while True:
-            if validate_data(play_col, size):
-                break
-
-        play_row = int(play_row) - 1
-        play_col = int(play_col) - 1
-
-        if game_board[play_row][play_col] == 'X':
-            print("Game over!")
-            print_game_board(game_board)
-            return False  # Create function for end_game? Continue? 
-
-        players_board[play_row][play_col] = game_board[play_row][play_col]
-        print_game_board(players_board)
-    
-        return True
+    return play_row, play_col, game_board
 
 
 def validate_data(data, size):
     """
     Inside the try, converts data input to integer.
-    Raises ValueError if data is outside range. 
+    Raises ValueError if data is outside range.
     """
 
     try:
@@ -285,28 +275,114 @@ def validate_data(data, size):
     return True
 
 
+def play_game(game_board, players_board):
+    """
+    Takes the players input and and checks if a mine is at that location. 
+    Returns an updated game board.
+    """
+
+    size = len(players_board)
+
+    while True:
+        if board_clear(players_board) is False:
+
+            while True:
+                row = input(f"Choose a row (1 - {size}): \n")
+                if validate_data(row, size):
+                    break
+
+            while True:
+                col = input(f"Choose a column (1 - {size}): \n")
+                if validate_data(col, size):
+                    break
+
+            row = int(row) - 1
+            col = int(col) - 1 
+
+            if game_board[row][col] == 'X':
+                print("Game over!")
+                print_game_board(game_board)
+                return False  # Create function for end_game? Continue?
+            else:
+                players_board[row][col] = game_board[row][col]
+                print_game_board(players_board)
+
+        else:
+            print("Congratulations! You've found all the mines!")
+            print("Would you like to play again?")  # Create function
+            break
+
+
 def board_clear(players_board):
     """
     Iterates through all values of the players board to check for
-    '-'. If there are none remaining the player has won the game. 
+    '-'. If there are none remaining the player has won the game.
     """
     size = len(players_board[0])
 
+    if size == 5:
+        mines = 8
+    if size == 10:
+        mines = 20
+    if size == 15:
+        mines = 30
+
+    remaining_mines = 0
     for row in range(size):
         for col in range(size):
             if players_board[row][col] == '-':
-                return False
+                remaining_mines += 1
+
+    if remaining_mines > mines:
+        return False
     return True
 
 
-difficulty = get_difficulty_level()
-new_game = create_board(difficulty)
+def play_again():
+    """
+    Asks the player if they would like to play again. Displays if game over
+    or player finds all mines.
+    """
+    while True:
+        answer = input("Would you like to play again? Y/N \n")
+        if validate_replay(answer):
+            break
 
-find_surrounding_mines(new_game)
-player_board = create_starting_board(difficulty)
-print_game_board(player_board)
-play_game(player_board, new_game)
+    if answer.lower() == 'y':
+        main()
+    else:
+        sys.exit()
 
 
-test = board_clear(player_board)
-print(test)
+def validate_replay(data):
+    """
+    Inside the try, converts data input to lowercase.
+    Raises ValueError if string does not match Y or N.
+    """
+    try:
+        data = data.lower()
+        if data != 'y':
+            if data != 'n':
+                raise ValueError(
+                    f"Expected 'Y' or 'N', you entered {data}"
+                )
+    except ValueError as e:
+        print(f"Invalid data: {e}")
+        return False
+
+    return True
+
+
+def main():
+    """
+    Runs all programs functions
+    """
+    difficulty = get_difficulty_level()
+    new_game = create_board(difficulty)
+    find_surrounding_mines(new_game)
+    player_board = create_starting_board(difficulty)
+    print_game_board(player_board)
+    play_game(new_game, player_board)
+
+
+main()
